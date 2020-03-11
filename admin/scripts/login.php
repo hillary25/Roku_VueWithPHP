@@ -40,19 +40,22 @@ function login($username, $password, $ip){
                     ':id'=>$id
                 )
             );
+
+            $user = array();
+
+            $user['id'] = $found_user['user_id'];
+            $user['admin'] = $found_user['user_admin'];
+            $user['avatar'] = $found_user['user_avatar'];
+            $user['permissions'] = $found_user['user_permissions'];
+            $user['uname'] = $found_user['user_name'];
+
+            $message = json_encode($user);
         }
 
-        if(isset($id)){
-            redirect_to('index.php');
-        }else{
-            $message = 'Wrong password!';
-        }
     }else{
         //User does not exist
         $message = 'User does not exist';
     }
-
-
 
     return $message;
 }
