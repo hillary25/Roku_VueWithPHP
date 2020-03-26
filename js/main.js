@@ -31,9 +31,29 @@ import UserHomeComponent from './components/UserHomeComponent.js';
 
       logout() {
         // push user back to login page
-        this.$router.push({ path: "/login" });
+        this.$router.push({ name: "login" });
         this.authenticated = false;
+
+        if (localStorage.getItem("cachedUser")) {
+          localStorage.removeItem("cachedUser");
+        }
       }
+    },
+
+    created: function() {
+      // Check for a user in localStorage
+      // If we've logged in before, this should be here until we manually remove
+
+      if (localStorage.getItem("cachedUser")) {
+        let user = JSON.parse(localStorage.getItem("cachedUser"));
+
+        this.authenticated = true;
+
+        this.$router.push({ name: "home", params: { currentuser: user }});
+      } else {
+        this.$router.push({ name: "login" });
+      }
+
     },
 
     router: router
